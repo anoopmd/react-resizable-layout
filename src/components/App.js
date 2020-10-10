@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import StyleWrapper from './StyleWrapper';
 
 const App = () => {
-  const [paneWidth, setPaneWidth] = useState(300);
+  const [leftPaneWidth, setLeftPaneWidth] = useState(300);
   const [dragging, setDragging] = useState(false);
+  const leftPaneRef = useRef(null);
 
   const handleMouseMove = (e) => {
     e.preventDefault();
     if(dragging) {
-      setPaneWidth(e.clientX - 10);
+      let offsetLeft = leftPaneRef.current.offsetLeft;
+      setLeftPaneWidth(e.clientX - offsetLeft);
     }
   };
 
   const handleMouseUp = (e) => {
+    e.preventDefault();
     setDragging(false);
   };
 
   const handleMouseDown = (e) => {
+    e.preventDefault();
     setDragging(true);
   };
 
@@ -28,22 +33,21 @@ const App = () => {
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [dragging, paneWidth]);
+  }, [dragging, leftPaneWidth]);
 
   return (
-      <div>
-        <h4>React Resizable Layout</h4>
-        <div style={{display: 'flex'}}>
-          <div style={{width: `${paneWidth}px`, height: '200px', background: 'blue'}}>
+      <StyleWrapper>
+        <div className="container">
+          <div className="leftPane" style={{width: `${leftPaneWidth}px`}} ref={leftPaneRef}>
           </div>
-          <div onMouseDown={handleMouseDown} style={{display: 'flex', cursor: 'col-resize', width: '6px'}}>
-            <div style={{background: 'blue', width: '3px'}}></div>
-            <div style={{background: 'red', width: '3px'}}></div>
+          <div className="seperator" onMouseDown={handleMouseDown}>
+            <div></div>
+            <div></div>
           </div>
-          <div style={{width: '300px', height: '200px', background: 'red'}}>
+          <div className="rightPane">
           </div>
         </div>
-      </div>
+      </StyleWrapper>
   );
 };
 export default App;

@@ -1,6 +1,8 @@
 # React Resizable Layout
 
-Implementation of a resizable layout without using any resizing libraries.
+Implementation of a resizable layout in React without using any resizing libraries.
+
+![demo](demo/demo.gif)
 
 ## Installation
 Clone from repository:
@@ -19,7 +21,7 @@ $ npm run start
 ```
 This will open the browser at `http://localhost:8080/`.
 
-## Run
+## Build
 Create a distributable:
 ```bash
 npm run build
